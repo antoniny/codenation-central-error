@@ -1,0 +1,1 @@
+insert into role (name, created_at) values ('CLIENT',current_timestamp);
