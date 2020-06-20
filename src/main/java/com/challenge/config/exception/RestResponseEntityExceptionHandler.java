@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.UnexpectedTypeException;
 import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ NullPointerException.class })
-    public ResponseEntity<ExceptionHandlerResponseDTO> handleNullPointerException(NullPointerException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    public ResponseEntity<ExceptionHandlerResponseDTO> handleNullPointerException(NullPointerException ex) {
 
          String mensagem = "Ocorreu uma falha no processamento de sua requisição.";
          String erro = "["+ex.getClass().getSimpleName()+"] "+ ex.getMessage();
@@ -68,6 +70,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity(handlerResponseDTO , HttpStatus.NOT_FOUND);
 
     }
+
+    @ExceptionHandler({ SavePostException.class })
+    public ResponseEntity<ExceptionHandlerResponseDTO> handleSavePostException(SavePostException ex) {
+
+        String mensagem = "Ocorreu uma falha no processamento de sua requisição.";
+        String erro = "["+ex.getClass().getSimpleName()+"] "+ ex.getMessage();
+
+        ExceptionHandlerResponseDTO handlerResponseDTO = new ExceptionHandlerResponseDTO(HttpStatus.BAD_REQUEST, mensagem , erro);
+
+        return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
+
+    }
+
 
     @ExceptionHandler({ JpaSystemException.class })
     public ResponseEntity<ExceptionHandlerResponseDTO> handleJpaSystemException(JpaSystemException ex) {
@@ -163,6 +178,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
 
     }
+
+    @ExceptionHandler({ UnexpectedTypeException.class , ConstraintViolationException.class })
+    public ResponseEntity<ExceptionHandlerResponseDTO> handleUnexpectedTypeException(Exception ex) {
+
+        String mensagem = "Ocorreu uma falha no processamento de sua requisição.";
+        String erro = "["+ex.getClass().getSimpleName()+"] "+ ex.getMessage();
+
+        ExceptionHandlerResponseDTO handlerResponseDTO = new ExceptionHandlerResponseDTO(HttpStatus.BAD_REQUEST, mensagem , erro);
+
+        return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
+
+    }
+
 
 
 }

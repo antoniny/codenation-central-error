@@ -28,10 +28,10 @@ public class UserService implements UserServiceInterface {
     @Value("${user.role.post.name.default}")
     private String POST_ROLE_NAME_DEFAULT;
 
-    @Value("${messages.exception.user.notfound}")
+    @Value("${user.messages.exception.user.notfound}")
     private String MESSAGE_USER_NOT_FOUND;
 
-    @Value("${messages.exception.role.notfound}")
+    @Value("${user.messages.exception.role.notfound}")
     private String MESSAGE_ROLE_NOT_FOUND;
 
     private final UserRepository userRepository;

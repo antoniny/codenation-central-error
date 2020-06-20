@@ -61,7 +61,7 @@ public class UserController {
             @Valid @RequestBody UserPutDto userPutDto
     ) {
 
-        return new ResponseEntity(userService.putUser(userPutDto), HttpStatus.OK);
+        return new ResponseEntity(userService.putUser(userPutDto), HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/users",
