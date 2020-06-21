@@ -9,6 +9,7 @@ import com.challenge.service.dto.LogEventPostDto;
 import com.challenge.service.dto.LogEventPostResponseDto;
 import com.challenge.service.dto.LogEventResponseDto;
 import com.challenge.service.interfaces.LogEventInterface;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -72,6 +73,16 @@ public class LogEventService implements LogEventInterface {
         return logEventRepository.findByIdAndStatusIgnoreCase(id , FLAG_STATUS_ACTIVE)
                                  .map(LogEventResponseDto::new)
                                  .orElseThrow(() -> new NotFoundException(EXCEPTION_MESSAGE_FOUND));
+    }
+
+    @Override
+    public Page<LogEventListDto> findAllLogEvent(Predicate predicate, Pageable pageable) {
+
+        Page<LogEvent> logEventPage = logEventRepository.findAll(predicate ,pageable);
+
+        List<LogEventListDto> listDtos = logEventPage.map(LogEventListDto::new).toList();
+
+        return new PageImpl<>(listDtos, pageable, logEventPage.getTotalElements());
     }
 
 

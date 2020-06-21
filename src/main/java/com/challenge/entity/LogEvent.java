@@ -4,10 +4,16 @@ import com.challenge.service.dto.LevelErrorEnum;
 import com.challenge.service.dto.LogEventPostDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,6 +22,8 @@ import java.time.LocalDateTime;
 @Entity(name = "log_event")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 @EntityListeners(AuditingEntityListener.class)
 public class LogEvent {
 
@@ -39,7 +47,7 @@ public class LogEvent {
     private String origin;
 
     @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDateTime eventDate;
 
     @PositiveOrZero
@@ -50,14 +58,17 @@ public class LogEvent {
     @NotEmpty
     private String status;
 
-    @NotNull
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @CreatedBy
+    private String createdBy;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
-    //@ManyToOne
-    //@JsonIgnore
-    //private User user;
+    @LastModifiedBy
+    private String lastModifiedBy;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
 
     public LogEvent(LogEventPostDto postDto) {
@@ -68,7 +79,5 @@ public class LogEvent {
         this.origin = "Origin";
         this.eventCount = 1L;
         this.status = "S";
-        this.createdAt = LocalDateTime.now();
-        //this.user
     }
 }

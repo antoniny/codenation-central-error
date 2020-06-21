@@ -37,6 +37,6 @@ public class LogEventPostResponseDto {
         this.eventCount = logEvent.getEventCount();
         this.status = logEvent.getStatus();
         this.createdAt = logEvent.getCreatedAt();
-        //this.clientId = logEvent.getUser().getEmail();
+
     }
 }
