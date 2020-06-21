@@ -52,6 +52,8 @@ public interface LogEventRepository extends BaseRepository<LogEvent, Long> , Que
         });
 
         bindings.bind(logevent.eventCount).first(SimpleExpression::eq);
+
+
     }
 
 
