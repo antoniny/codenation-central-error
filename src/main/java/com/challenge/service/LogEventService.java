@@ -48,7 +48,6 @@ public class LogEventService implements LogEventInterface {
                                                     return  event;  })
                                     .orElseGet(() -> new LogEvent(postDto));
 
-        System.out.println(logEvent.toString());
         return   Stream.of(logEventRepository.save(logEvent))
                       .map(LogEventPostResponseDto::new)
                       .findAny()

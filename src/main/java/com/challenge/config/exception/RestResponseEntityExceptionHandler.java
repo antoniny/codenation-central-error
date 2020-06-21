@@ -1,6 +1,7 @@
 package com.challenge.config.exception;
 
 import com.challenge.config.exception.dto.ExceptionHandlerResponseDTO;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver;
+import org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
@@ -119,6 +122,32 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
 
     }
+
+
+    @ExceptionHandler({ IllegalArgumentException.class })
+    public ResponseEntity<ExceptionHandlerResponseDTO> handleIllegalArgumentException(IllegalArgumentException ex) {
+
+        String mensagem = "Ocorreu uma falha no processamento de sua requisição. " + ex.getCause().getMessage();
+        String erro = "["+ex.getClass().getSimpleName()+"] "+ ex.getMessage();
+
+        ExceptionHandlerResponseDTO handlerResponseDTO = new ExceptionHandlerResponseDTO(HttpStatus.BAD_REQUEST, mensagem , erro);
+
+        return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
+
+    }
+
+    @ExceptionHandler({InvalidFormatException.class })
+    public ResponseEntity<ExceptionHandlerResponseDTO> handleInvalidFormatException(InvalidFormatException ex) {
+
+        String mensagem = "Ocorreu uma falha no processamento de sua requisição. " + ex.getCause().getMessage();
+        String erro = "["+ex.getClass().getSimpleName()+"] "+ ex.getMessage();
+
+        ExceptionHandlerResponseDTO handlerResponseDTO = new ExceptionHandlerResponseDTO(HttpStatus.BAD_REQUEST, mensagem , erro);
+
+        return new ResponseEntity(handlerResponseDTO , HttpStatus.BAD_REQUEST);
+
+    }
+
 /*
     @ExceptionHandler({ FeignException.class })
     public ResponseEntity<ExceptionHandlerResponseDTO> handleFeignException(IllegalStateException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -132,6 +161,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     }
 */
+
+
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String error = ex.getParameterName() + " parâmetro é obrigatório.";
@@ -139,6 +170,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ExceptionHandlerResponseDTO handlerResponseDTO = new ExceptionHandlerResponseDTO(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return new ResponseEntity<Object>(handlerResponseDTO, new HttpHeaders(), handlerResponseDTO.getStatus());
     }
+
+
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

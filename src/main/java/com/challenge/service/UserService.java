@@ -91,8 +91,6 @@ public class UserService implements UserServiceInterface {
 
         user.setStatus(FLAG_STATUS_INACTIVE);
 
-        System.out.println(user.toString());
-
         return new UserDto(userRepository.save(user));
     }
 }
