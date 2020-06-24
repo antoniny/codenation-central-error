@@ -28,7 +28,7 @@ Funcionalidades
 
 
 
-´´´
+```
 curl --location --request POST '...../oauth/token?grant_type=password&username=admin@codenation.dev&password=codenation' \
 --header 'Authorization: Basic Y29kZW5hdGlvbjoxMjM0NTY='
-´´´
+```
