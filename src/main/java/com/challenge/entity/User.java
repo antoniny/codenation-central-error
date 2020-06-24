@@ -17,6 +17,8 @@ import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.challenge.config.security.WebSecurityConfigAdapter.passwordEncoder;
+
 @Entity(name = "user")
 @Data
 @NoArgsConstructor
