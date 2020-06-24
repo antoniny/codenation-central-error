@@ -25,3 +25,10 @@ Funcionalidades
 - Deve suportar Ordenação por diferentes tipos de atributos
 - A consulta de listagem não deve retornar os LOGs dos Eventos
 - Deve permitir a busca de um evento por um ID, dessa maneira exibindo o LOG desse evento em específico
+
+
+
+´´´
+curl --location --request POST '...../oauth/token?grant_type=password&username=admin@codenation.dev&password=codenation' \
+--header 'Authorization: Basic Y29kZW5hdGlvbjoxMjM0NTY='
+´´´
