@@ -21,4 +21,5 @@ public interface UserRepository extends BaseRepository<User , Long> {
     @Query("SELECT r FROM role r where upper(r.name) = upper(:name) ")
     Optional<Role> findByRoles_Name(@Param("name") String name);
 
+    User findByEmail(String login);
 }

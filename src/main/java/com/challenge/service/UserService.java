@@ -3,12 +3,15 @@ package com.challenge.service;
 import com.challenge.config.exception.NotFoundException;
 import com.challenge.entity.User;
 import com.challenge.repository.UserRepository;
+import com.challenge.service.dto.UserCustomDTO;
 import com.challenge.service.dto.UserDto;
 import com.challenge.service.dto.UserPostDto;
 import com.challenge.service.dto.UserPutDto;
 import com.challenge.service.interfaces.UserServiceInterface;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserServiceInterface {
+public class UserService implements UserServiceInterface , UserDetailsService {
 
     @Value("${user.status.active}")
     private String FLAG_STATUS_ACTIVE;
@@ -92,5 +95,13 @@ public class UserService implements UserServiceInterface {
         user.setStatus(FLAG_STATUS_INACTIVE);
 
         return new UserDto(userRepository.save(user));
+    }
+
+    @Override
+    public UserCustomDTO loadUserByUsername(String login) throws UsernameNotFoundException {
+        return  userRepository
+                .findByEmailIgnoreCaseAndStatus(login, FLAG_STATUS_ACTIVE)
+                .map(UserCustomDTO::new)
+                .orElseThrow(() -> new NotFoundException(MESSAGE_USER_NOT_FOUND));
     }
 }

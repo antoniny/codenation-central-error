@@ -1,9 +1,12 @@
 package com.challenge.config.doc;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.GroupedOpenApi;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +20,18 @@ public class SpringDocConfig {
     @Bean
     public OpenAPI customOpenAPI(@Value("${application-description}") String appDesciption, @Value("${application-version}") String appVersion) {
 
+        final String securitySchemeName = "bearerAuth";
 
         return new OpenAPI()
+                        .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                        .components(new Components()
+                                .addSecuritySchemes(securitySchemeName,
+                                        new SecurityScheme()
+                                                .name(securitySchemeName)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                ))
                         .info(new Info().title("Central de Erros - Desafio Final - Codenation")
                                         .version(appVersion)
                                         .description(appDesciption)
