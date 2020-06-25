@@ -52,7 +52,7 @@ public class SpringDocConfig {
 
     @Bean
     public GroupedOpenApi customApi() {
-        return GroupedOpenApi.builder().group("CentralErros_V1").pathsToMatch("/api/v1/**").build();
+        return GroupedOpenApi.builder().group("CentralErros_V1").pathsToMatch("/api/v1/**","/oauth/token").build();
     }
 
     // It's important to set it in order to handle Pageable
