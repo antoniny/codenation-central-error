@@ -47,12 +47,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
          clients.inMemory()
                 .withClient(clientId)
-                //.secret(new BCryptPasswordEncoder().encode(secretId))
                 .secret(secretId)
-                //.authorizedGrantTypes(scope)
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .scopes("read","write","trust")
-               // .resourceIds("oauth2-resource")
                 .accessTokenValiditySeconds(accessTokenValiditySeconds)
                 .refreshTokenValiditySeconds(refreshTokenValiditySeconds);
     }
