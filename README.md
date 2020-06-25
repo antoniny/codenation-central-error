@@ -27,9 +27,13 @@ Funcionalidades
 - Deve permitir a busca de um evento por um ID, dessa maneira exibindo o LOG desse evento em específico
 
 
+
+
 Url app: https://codenation-central-error.herokuapp.com/swagger-ui.html
 
 ```
-curl --location --request POST '...../oauth/token?grant_type=password&username=admin@codenation.dev&password=codenation' \
+
+curl --location --request POST 'https://codenation-central-error.herokuapp.com/oauth/token?grant_type=password&username=admin@codenation.dev&password=codenation' \
 --header 'Authorization: Basic Y29kZW5hdGlvbjoxMjM0NTY='
+
 ```
